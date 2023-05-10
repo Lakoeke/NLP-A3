@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+  <title>Mood value indicator</title>
+  <link
+    rel="shortcut icon"
+    href="{{ url_for('static', filename='mood.png') }}"
+  />
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+</head>
+
+<body>
+  <img src="{{ url_for('static', filename='mood.png') }}" class="icon" />
+  <h3>Generate a mood value</h3>
+  <form action="/" method="post">
+    <input type="text" name="mood" placeholder="Enter a sentence" required />
+    <input type="submit" value="Generate mood value" />
+  </form>
+  {% if result %}
+  <div class="result"><h4>Overall sentiment:</h4>{{ result }}</div>
+  {% endif %}
+  {% if scores %}
+  <div class="sentiment-scores">
+    <h4>Sentiment score per word (model's confidence that a certain word contributes to a particular sentiment label (negative, neutral, or positive)):</h4>
+    {% for word, score in scores.items() %}
+    <p>{{ word }}: {{ score }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% if total_score %}
+  <div class="total-score">
+    <h4>Total sentiment score (model's confidence that the sentence contributes to a particular sentiment label (negative, neutral, or positive)):</h4>
+    <p>{{ total_score }}</p>
+  </div>
+  {% endif %}
+</body>
